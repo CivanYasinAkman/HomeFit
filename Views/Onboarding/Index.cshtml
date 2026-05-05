@@ -1,0 +1,67 @@
+@model HomeFit.Models.User
+
+@{
+    ViewData["Title"] = "Profil Oluştur";
+}
+
+<div style="background: #0d0d1a; min-height: 100vh; padding: 60px 20px; color: white;">
+    <div style="max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #fff; margin-bottom: 8px;">Profilinizi Oluşturun</h2>
+        <p style="color: #888; margin-bottom: 40px;">Size özel program oluşturabilmemiz için birkaç bilgiye ihtiyacımız var.</p>
+
+        <form form asp-controller="Onboarding" asp-action="Submit" method="post" style="background: #111; border-radius: 16px; padding: 40px; border: 1px solid #1e1e2e;">
+    @Html.AntiForgeryToken()>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div>
+                    <label style="display: block; font-size: 12px; color: #888; margin-bottom: 6px;">Ad Soyad</label>
+                    <input asp-for="Name" style="background: #1e1e2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 13px; width: 100%;" placeholder="Adınız" />
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12px; color: #888; margin-bottom: 6px;">Email</label>
+                    <input asp-for="Email" style="background: #1e1e2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 13px; width: 100%;" placeholder="email@example.com" />
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12px; color: #888; margin-bottom: 6px;">Yaş</label>
+                    <input asp-for="Age" type="number" style="background: #1e1e2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 13px; width: 100%;" placeholder="25" />
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12px; color: #888; margin-bottom: 6px;">Kilo (kg)</label>
+                    <input asp-for="Weight" type="number" style="background: #1e1e2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 13px; width: 100%;" placeholder="70" />
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12px; color: #888; margin-bottom: 6px;">Boy (cm)</label>
+                    <input asp-for="Height" type="number" style="background: #1e1e2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 13px; width: 100%;" placeholder="170" />
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12px; color: #888; margin-bottom: 6px;">Cinsiyet</label>
+                    <select asp-for="Gender" style="background: #1e1e2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 13px; width: 100%;">
+                        <option value="">Seçin...</option>
+                        <option value="female">Kadın</option>
+                        <option value="male">Erkek</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12px; color: #888; margin-bottom: 6px;">Fitness Seviyesi</label>
+                    <select asp-for="FitnessLevel" style="background: #1e1e2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 13px; width: 100%;">
+                        <option value="">Seçin...</option>
+                        <option value="beginner">Başlangıç</option>
+                        <option value="intermediate">Orta</option>
+                        <option value="advanced">İleri</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12px; color: #888; margin-bottom: 6px;">Hedef</label>
+                    <select asp-for="Goal" style="background: #1e1e2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 13px; width: 100%;">
+                        <option value="">Seçin...</option>
+                        <option value="fat_loss">Kilo Vermek</option>
+                        <option value="muscle_gain">Kas Kazanmak</option>
+                        <option value="maintain">Form Korumak</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" style="width: 100%; background: #00bcd4; color: #000; border: none; border-radius: 10px; padding: 14px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 8px;">
+                Programımı Oluştur →
+            </button>
+        </form>
+    </div>
+</div>
