@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using HomeFit.Models;
+using HomeFit.Data;
 
 namespace HomeFit.Controllers
 {

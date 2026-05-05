@@ -1,6 +1,8 @@
-using Microsoft.EntityFrameworkCore;
 
-namespace HomeFit.Models
+using Microsoft.EntityFrameworkCore;
+using HomeFit.Models;
+
+namespace HomeFit.Data
 {
     public class AppDbContext : DbContext
     {

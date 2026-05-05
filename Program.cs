@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using HomeFit.Models;
+using HomeFit.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
