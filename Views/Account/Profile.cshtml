@@ -1,0 +1,74 @@
+@model HomeFit.Models.User
+@{ ViewData["Title"] = "Profilim"; }
+
+<div style="background:#0d0d1a;min-height:100vh;padding:40px 20px;color:white;">
+    <div style="max-width:700px;margin:0 auto;">
+
+        <h2 style="color:#fff;margin-bottom:4px;">Profilim</h2>
+        <p style="color:#6b7280;font-size:13px;margin-bottom:32px;">Hesap bilgileriniz ve üyelik durumunuz</p>
+
+        <!-- Üyelik Rozeti -->
+        <div style="background:#111827;border:1px solid #1e1e2e;border-radius:14px;padding:24px;margin-bottom:20px;display:flex;align-items:center;gap:20px;">
+            <div style="width:64px;height:64px;background:#1e1e2e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;">
+                👤
+            </div>
+            <div style="flex:1;">
+                <div style="font-size:18px;font-weight:bold;">@Model.Name</div>
+                <div style="color:#6b7280;font-size:13px;">@Model.Email</div>
+                <div style="margin-top:8px;">
+                    @if (Model.MembershipTier == "Premium")
+                    {
+                        <span style="background:#2a1a0e;color:#f59e0b;font-size:11px;padding:4px 12px;border-radius:20px;font-weight:bold;">⭐ Premium Üye</span>
+                    }
+                    else
+                    {
+                        <span style="background:#1a1a2e;color:#6b7280;font-size:11px;padding:4px 12px;border-radius:20px;">Free Üye</span>
+                    }
+                    <span style="background:#0d1a1e;color:#00bcd4;font-size:11px;padding:4px 12px;border-radius:20px;margin-left:8px;">@Model.Role</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fiziksel Metrikler -->
+        <div style="background:#111827;border:1px solid #1e1e2e;border-radius:14px;padding:24px;margin-bottom:20px;">
+            <h4 style="color:#00bcd4;margin-bottom:16px;font-size:14px;">Fiziksel Bilgiler</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:13px;">
+                <div><span style="color:#6b7280;">Yaş:</span> <span>@(Model.Age > 0 ? Model.Age : "—")</span></div>
+                <div><span style="color:#6b7280;">Cinsiyet:</span> <span>@(Model.Gender ?? "—")</span></div>
+                <div><span style="color:#6b7280;">Kilo:</span> <span>@(Model.Weight > 0 ? Model.Weight + " kg" : "—")</span></div>
+                <div><span style="color:#6b7280;">Boy:</span> <span>@(Model.Height > 0 ? Model.Height + " cm" : "—")</span></div>
+                <div><span style="color:#6b7280;">Fitness Seviyesi:</span> <span>@(Model.FitnessLevel ?? "—")</span></div>
+                <div><span style="color:#6b7280;">Hedef:</span> <span>@(Model.Goal ?? "—")</span></div>
+            </div>
+        </div>
+
+        <!-- Atanan Program -->
+        @if (Model.UserProgram?.Program != null)
+        {
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:14px;padding:24px;margin-bottom:20px;">
+                <h4 style="color:#00bcd4;margin-bottom:12px;font-size:14px;">Aktif Programım</h4>
+                <div style="font-size:16px;font-weight:bold;margin-bottom:4px;">@Model.UserProgram.Program.Name</div>
+                <div style="color:#6b7280;font-size:13px;">@Model.UserProgram.Program.Description</div>
+            </div>
+        }
+
+        <!-- Aksiyonlar -->
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/Onboarding" style="background:#1e1e2e;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13px;">
+                ✏️ Profili Güncelle
+            </a>
+            @if (Model.MembershipTier != "Premium")
+            {
+                <a href="/Subscription/Upgrade" style="background:#f59e0b;color:#000;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:bold;">
+                    ⭐ Premium'a Geç
+                </a>
+            }
+            <form asp-action="DeleteAccount" method="post" onsubmit="return confirm('Hesabınızı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.')">
+                @Html.AntiForgeryToken()
+                <button type="submit" style="background:#1a0000;color:#ef4444;border:1px solid #ef4444;padding:10px 20px;border-radius:8px;font-size:13px;cursor:pointer;">
+                    🗑️ Hesabı Sil
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

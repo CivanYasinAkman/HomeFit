@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using HomeFit.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using HomeFit.Data;
+using HomeFit.Models;
 
 namespace HomeFit.Controllers
 {
+    [Authorize]
     public class OnboardingController : Controller
     {
         private readonly AppDbContext _context;
@@ -13,36 +17,76 @@ namespace HomeFit.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Submit(User user)
+        public async Task<IActionResult> Submit(User formData)
         {
-            if (!ModelState.IsValid)
-                return View("Index", user);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return NotFound();
 
-            string program = AssignProgram(user);
-            ViewBag.Program = program;
-            ViewBag.UserName = user.Name;
-            return View("Result");
+            // Fiziksel metrikleri güncelle
+            user.Age = formData.Age;
+            user.Weight = formData.Weight;
+            user.Height = formData.Height;
+            user.Gender = formData.Gender;
+            user.FitnessLevel = formData.FitnessLevel;
+            user.Goal = formData.Goal;
+            user.Equipment = formData.Equipment;
+            user.OnboardingCompleted = true;
+
+            // Mevcut aktif programı pasife çek
+            var existing = await _context.UserPrograms
+                .FirstOrDefaultAsync(up => up.UserId == userId && up.IsActive);
+            if (existing != null)
+            {
+                existing.IsActive = false;
+            }
+
+            // Kural tabanlı program ata
+            var program = await AssignProgram(user);
+            if (program != null)
+            {
+                _context.UserPrograms.Add(new UserProgram
+                {
+                    UserId = userId,
+                    ProgramId = program.ProgramId,
+                    StartDate = DateTime.UtcNow,
+                    IsActive = true
+                });
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Dashboard", "Home");
         }
 
-        private string AssignProgram(User user)
+        private async Task<WorkoutProgram?> AssignProgram(User user)
         {
-            if (user.Goal == "fat_loss" && user.FitnessLevel == "beginner")
-                return "Beginner Fat Loss Program — 3 days/week, bodyweight cardio";
-            else if (user.Goal == "muscle_gain" && user.FitnessLevel == "beginner")
-                return "Beginner Muscle Gain Program — 3 days/week, basic strength";
-            else if (user.Goal == "muscle_gain" && user.FitnessLevel == "intermediate")
-                return "Intermediate Strength Program — 4 days/week, progressive overload";
-            else if (user.Goal == "fat_loss" && user.FitnessLevel == "intermediate")
-                return "Intermediate Fat Loss Program — 4 days/week, HIIT + strength";
-            else
-                return "General Fitness Program — 3 days/week, full body";
+            var query = _context.WorkoutPrograms.AsQueryable();
+
+            // Premium kontrolü
+            if (user.MembershipTier != "Premium")
+                query = query.Where(p => !p.IsPremium);
+
+            // Goal eşleştir
+            if (!string.IsNullOrEmpty(user.Goal))
+                query = query.Where(p => p.Goal == user.Goal);
+
+            // Fitness seviyesi eşleştir
+            if (!string.IsNullOrEmpty(user.FitnessLevel))
+                query = query.Where(p => p.DifficultyLevel == user.FitnessLevel);
+
+            var match = await query.FirstOrDefaultAsync();
+
+            // Eşleşme yoksa genel programı ver
+            if (match == null)
+                match = await _context.WorkoutPrograms
+                    .Where(p => !p.IsPremium)
+                    .FirstOrDefaultAsync();
+
+            return match;
         }
     }
 }

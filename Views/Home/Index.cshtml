@@ -1,33 +1,69 @@
-﻿@{
-    ViewData["Title"] = "HomeFit - Evde Spor, Sana Özel";
-}
+﻿@{ ViewData["Title"] = "HomeFit - Evde Spor, Sana Özel"; }
 
-<div style="background: linear-gradient(135deg, #0d0d1a, #1a1a2e); min-height: 100vh; color: white; padding: 60px;">
-    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-        <h1 style="font-size: 48px; color: #00bcd4; margin-bottom: 20px;">HomeFit</h1>
-        <p style="font-size: 20px; color: #888; margin-bottom: 40px;">
-            Evde, ekipmansız, kendi hızında. Sana özel program seni bekliyor.
+<div style="background:linear-gradient(135deg,#0d0d1a,#1a1a2e);min-height:calc(100vh - 60px);color:white;padding:80px 20px;">
+    <div style="max-width:800px;margin:0 auto;text-align:center;">
+
+        <div style="display:inline-block;background:#0d1a1e;color:#00bcd4;font-size:12px;padding:6px 16px;border-radius:20px;margin-bottom:24px;border:1px solid #1e3a5f;">
+            🏠 Evde Antrenman Platformu
+        </div>
+
+        <h1 style="font-size:52px;font-weight:900;line-height:1.15;margin-bottom:20px;">
+            Evde Spor,<br/>
+            <span style="color:#00bcd4;">Sana Özel Program</span>
+        </h1>
+
+        <p style="font-size:16px;color:#9ca3af;max-width:520px;margin:0 auto 40px;line-height:1.7;">
+            Yaşını, kilonu ve hedefini gir. Sana özel haftalık antrenman programın hazır.
+            Ekipman gerekmez, gym üyeliği gerekmez.
         </p>
-        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-            <a href="/Onboarding" style="background: #00bcd4; color: #000; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 16px;">
-                Ücretsiz Başla
+
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:60px;">
+            <a href="/Account/Register"
+               style="background:#00bcd4;color:#000;padding:14px 36px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:15px;">
+                Ücretsiz Başla →
             </a>
-            <a href="/Exercise" style="background: transparent; color: #fff; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-size: 16px; border: 1px solid #444;">
+            <a href="/Exercise"
+               style="background:transparent;color:#fff;padding:14px 36px;border-radius:10px;text-decoration:none;font-size:15px;border:1px solid #2a2a3e;">
                 Egzersizleri Gör
             </a>
         </div>
-        <div style="display: flex; gap: 48px; justify-content: center; margin-top: 60px;">
-            <div>
-                <div style="font-size: 28px; font-weight: bold; color: #00bcd4;">200+</div>
-                <div style="color: #555; font-size: 12px;">Egzersiz</div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:560px;margin:0 auto 60px;">
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:20px;">
+                <div style="font-size:28px;font-weight:900;color:#00bcd4;">200+</div>
+                <div style="color:#6b7280;font-size:12px;margin-top:4px;">Egzersiz</div>
             </div>
-            <div>
-                <div style="font-size: 28px; font-weight: bold; color: #00bcd4;">Free</div>
-                <div style="color: #555; font-size: 12px;">Başlangıç Planı</div>
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:20px;">
+                <div style="font-size:28px;font-weight:900;color:#00bcd4;">GIF</div>
+                <div style="color:#6b7280;font-size:12px;margin-top:4px;">Görsel Rehber</div>
             </div>
-            <div>
-                <div style="font-size: 28px; font-weight: bold; color: #00bcd4;">GIF</div>
-                <div style="color: #555; font-size: 12px;">Görsel Rehber</div>
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:20px;">
+                <div style="font-size:28px;font-weight:900;color:#00bcd4;">Free</div>
+                <div style="color:#6b7280;font-size:12px;margin-top:4px;">Başlangıç Planı</div>
+            </div>
+        </div>
+
+        <!-- Özellikler -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:left;">
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:24px;">
+                <div style="font-size:28px;margin-bottom:12px;">🎯</div>
+                <div style="font-size:14px;font-weight:bold;margin-bottom:6px;">Kural Tabanlı Program</div>
+                <div style="color:#6b7280;font-size:13px;line-height:1.6;">Hedefine ve fitness seviyene göre otomatik haftalık program oluşturulur.</div>
+            </div>
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:24px;">
+                <div style="font-size:28px;margin-bottom:12px;">▶️</div>
+                <div style="font-size:14px;font-weight:bold;margin-bottom:6px;">GIF Demonstrasyonu</div>
+                <div style="color:#6b7280;font-size:13px;line-height:1.6;">Her egzersiz için tek tekrar GIF animasyonu ve tekrar sayacı.</div>
+            </div>
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:24px;">
+                <div style="font-size:28px;margin-bottom:12px;">📊</div>
+                <div style="font-size:14px;font-weight:bold;margin-bottom:6px;">İlerleme Takibi</div>
+                <div style="color:#6b7280;font-size:13px;line-height:1.6;">Seans geçmişi ve vücut ölçümlerini grafiklerle takip et.</div>
+            </div>
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:24px;">
+                <div style="font-size:28px;margin-bottom:12px;">⭐</div>
+                <div style="font-size:14px;font-weight:bold;margin-bottom:6px;">Free & Premium</div>
+                <div style="color:#6b7280;font-size:13px;line-height:1.6;">Ücretsiz başla, hazır olduğunda gelişmiş programlara geç.</div>
             </div>
         </div>
     </div>

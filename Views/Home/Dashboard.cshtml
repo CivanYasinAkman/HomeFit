@@ -1,0 +1,139 @@
+@model HomeFit.Models.User
+@{ ViewData["Title"] = "Dashboard"; }
+
+<div style="background:#0d0d1a;min-height:100vh;padding:40px 20px;color:white;">
+    <div style="max-width:900px;margin:0 auto;">
+
+        <!-- Hoş geldin başlığı -->
+        <div style="margin-bottom:32px;">
+            <h2 style="font-size:22px;margin-bottom:4px;">
+                Merhaba, @Model.Name 👋
+            </h2>
+            <p style="color:#6b7280;font-size:13px;">
+                @DateTime.Now.ToString("dddd, dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))
+            </p>
+        </div>
+
+        <!-- Üst kartlar -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;">
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:20px;">
+                <div style="color:#6b7280;font-size:11px;margin-bottom:8px;">ÜYELİK</div>
+                @if (Model.MembershipTier == "Premium")
+                {
+                    <div style="color:#f59e0b;font-size:16px;font-weight:bold;">⭐ Premium</div>
+                }
+                else
+                {
+                    <div style="color:#fff;font-size:16px;font-weight:bold;">Free</div>
+                    <a href="/Subscription/Upgrade"
+                       style="display:inline-block;margin-top:8px;font-size:11px;color:#00bcd4;text-decoration:none;">
+                        Premium'a Geç →
+                    </a>
+                }
+            </div>
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:20px;">
+                <div style="color:#6b7280;font-size:11px;margin-bottom:8px;">TAMAMLANAN SEANS</div>
+                <div style="color:#fff;font-size:24px;font-weight:bold;">
+                    @Model.WorkoutSessions.Count(ws => ws.Status == "Completed")
+                </div>
+            </div>
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:20px;">
+                <div style="color:#6b7280;font-size:11px;margin-bottom:8px;">FITNESS SEVİYESİ</div>
+                <div style="color:#fff;font-size:16px;font-weight:bold;text-transform:capitalize;">
+                    @(Model.FitnessLevel ?? "—")
+                </div>
+            </div>
+        </div>
+
+        <!-- Aktif Program -->
+        @if (Model.UserProgram?.Program != null)
+        {
+            var prog = Model.UserProgram.Program;
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:14px;padding:28px;margin-bottom:28px;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+                    <div>
+                        <div style="color:#6b7280;font-size:11px;margin-bottom:4px;">AKTİF PROGRAM</div>
+                        <div style="font-size:18px;font-weight:bold;">@prog.Name</div>
+                        <div style="color:#6b7280;font-size:13px;margin-top:4px;">@prog.Description</div>
+                    </div>
+                    @if (prog.IsPremium)
+                    {
+                        <span style="background:#2a1a0e;color:#f59e0b;font-size:11px;padding:4px 12px;border-radius:20px;">⭐ Premium</span>
+                    }
+                </div>
+
+                <!-- Program egzersizleri -->
+                @if (prog.ProgramExercises != null && prog.ProgramExercises.Any())
+                {
+                    var byDay = prog.ProgramExercises
+                        .GroupBy(pe => pe.DayOfWeek)
+                        .OrderBy(g => g.Key);
+
+                    foreach (var day in byDay)
+                    {
+                        <div style="margin-bottom:16px;">
+                            <div style="color:#00bcd4;font-size:12px;font-weight:bold;margin-bottom:10px;">
+                                📅 @day.Key
+                            </div>
+                            <div style="display:grid;gap:8px;">
+                                @foreach (var pe in day.OrderBy(x => x.OrderInDay))
+                                {
+                                    <div style="background:#1e1e2e;border-radius:8px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
+                                        <div>
+                                            <span style="font-size:13px;font-weight:bold;">@pe.Exercise?.Name</span>
+                                            <span style="color:#6b7280;font-size:12px;margin-left:8px;">@pe.Exercise?.MuscleGroup</span>
+                                        </div>
+                                        <div style="display:flex;align-items:center;gap:12px;">
+                                            <span style="color:#9ca3af;font-size:12px;">@pe.Sets set × @pe.Reps tekrar</span>
+                                            <a href="/Exercise/Detail/@pe.ExerciseId"
+                                               style="background:#00bcd4;color:#000;font-size:11px;font-weight:bold;padding:5px 12px;border-radius:6px;text-decoration:none;">
+                                                Başla
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p style="color:#6b7280;font-size:13px;">Bu program için henüz egzersiz eklenmemiş.</p>
+                }
+
+                <a href="/Onboarding"
+                   style="display:inline-block;margin-top:16px;background:#1e1e2e;color:#fff;padding:8px 18px;border-radius:8px;text-decoration:none;font-size:13px;">
+                    ✏️ Programı Güncelle
+                </a>
+            </div>
+        }
+        else
+        {
+            <div style="background:#111827;border:1px dashed #2a2a3e;border-radius:14px;padding:40px;text-align:center;margin-bottom:28px;">
+                <div style="font-size:36px;margin-bottom:12px;">🏋️</div>
+                <div style="font-size:16px;margin-bottom:8px;">Henüz programın yok</div>
+                <p style="color:#6b7280;font-size:13px;margin-bottom:20px;">Profilini tamamla ve sana özel programını al.</p>
+                <a href="/Onboarding"
+                   style="background:#00bcd4;color:#000;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:13px;">
+                    Profili Tamamla →
+                </a>
+            </div>
+        }
+
+        <!-- Hızlı linkler -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <a href="/Exercise"
+               style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:20px;text-decoration:none;color:white;display:block;">
+                <div style="font-size:24px;margin-bottom:8px;">💪</div>
+                <div style="font-size:14px;font-weight:bold;">Egzersiz Kütüphanesi</div>
+                <div style="color:#6b7280;font-size:12px;margin-top:4px;">Tüm egzersizleri incele</div>
+            </a>
+            <a href="/Progress"
+               style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:20px;text-decoration:none;color:white;display:block;">
+                <div style="font-size:24px;margin-bottom:8px;">📈</div>
+                <div style="font-size:14px;font-weight:bold;">İlerleme Takibi</div>
+                <div style="color:#6b7280;font-size:12px;margin-top:4px;">Gelişimini görselleştir</div>
+            </a>
+        </div>
+    </div>
+</div>

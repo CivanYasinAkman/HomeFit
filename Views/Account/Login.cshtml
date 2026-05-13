@@ -1,0 +1,78 @@
+@model HomeFit.Models.LoginViewModel
+@{ ViewData["Title"] = "Giriş Yap"; Layout = null; }
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giriş Yap — HomeFit</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #0d0d1a; color: white; font-family: 'Segoe UI', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 16px; }
+        .card { background: #111827; border: 1px solid #1e1e2e; border-radius: 16px; padding: 40px; width: 100%; max-width: 420px; }
+        .logo { color: #00bcd4; font-size: 22px; font-weight: bold; margin-bottom: 8px; }
+        h2 { font-size: 20px; margin-bottom: 4px; }
+        .sub { color: #6b7280; font-size: 13px; margin-bottom: 28px; }
+        .field { margin-bottom: 16px; }
+        label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 6px; }
+        input { width: 100%; background: #1e1e2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 13px; outline: none; }
+        input:focus { border-color: #00bcd4; }
+        .btn { width: 100%; background: #00bcd4; color: #000; border: none; border-radius: 10px; padding: 13px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 8px; }
+        .btn:hover { background: #00acc1; }
+        .footer-link { text-align: center; margin-top: 20px; font-size: 13px; color: #6b7280; }
+        .footer-link a { color: #00bcd4; text-decoration: none; }
+        .error-box { background: #1a0000; border: 1px solid #ef4444; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #ef4444; }
+        span.field-validation-error { color: #ef4444; font-size: 11px; margin-top: 4px; display: block; }
+        .forgot { text-align: right; margin-top: -8px; margin-bottom: 16px; }
+        .forgot a { color: #6b7280; font-size: 12px; text-decoration: none; }
+        .forgot a:hover { color: #00bcd4; }
+        .success-box { background: #0d2a1a; border: 1px solid #00c853; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #00c853; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="logo">HomeFit</div>
+    <h2>Tekrar Hoş Geldin</h2>
+    <p class="sub">Hesabına giriş yap ve antrenmana devam et.</p>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="success-box">@TempData["Success"]</div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="error-box">
+            @Html.ValidationSummary(false)
+        </div>
+    }
+
+    <form asp-action="Login" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="field">
+            <label>Email</label>
+            <input asp-for="Email" placeholder="email@example.com" />
+            <span asp-validation-for="Email"></span>
+        </div>
+
+        <div class="field">
+            <label>Şifre</label>
+            <input asp-for="Password" type="password" placeholder="••••••••" />
+            <span asp-validation-for="Password"></span>
+        </div>
+
+        <div class="forgot">
+            <a href="/Account/ForgotPassword">Şifremi unuttum</a>
+        </div>
+
+        <button type="submit" class="btn">Giriş Yap →</button>
+    </form>
+
+    <div class="footer-link">
+        Hesabın yok mu? <a href="/Account/Register">Kayıt Ol</a>
+    </div>
+</div>
+</body>
+</html>

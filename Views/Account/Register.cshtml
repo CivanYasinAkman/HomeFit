@@ -1,0 +1,105 @@
+@model HomeFit.Models.RegisterViewModel
+@{ ViewData["Title"] = "Kayıt Ol"; Layout = null; }
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kayıt Ol — HomeFit</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #0d0d1a; color: white; font-family: 'Segoe UI', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 16px; }
+        .card { background: #111827; border: 1px solid #1e1e2e; border-radius: 16px; padding: 40px; width: 100%; max-width: 520px; }
+        .logo { color: #00bcd4; font-size: 22px; font-weight: bold; margin-bottom: 8px; }
+        h2 { font-size: 20px; margin-bottom: 4px; }
+        .sub { color: #6b7280; font-size: 13px; margin-bottom: 28px; }
+        .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .field { margin-bottom: 16px; }
+        label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 6px; }
+        input, select { width: 100%; background: #1e1e2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 13px; outline: none; }
+        input:focus, select:focus { border-color: #00bcd4; }
+        select option { background: #1e1e2e; }
+        .checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin: 16px 0; }
+        .checkbox-row input[type=checkbox] { width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0; }
+        .checkbox-row span { font-size: 12px; color: #9ca3af; line-height: 1.5; }
+        .btn { width: 100%; background: #00bcd4; color: #000; border: none; border-radius: 10px; padding: 13px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 8px; }
+        .btn:hover { background: #00acc1; }
+        .footer-link { text-align: center; margin-top: 20px; font-size: 13px; color: #6b7280; }
+        .footer-link a { color: #00bcd4; text-decoration: none; }
+        .validation-summary { background: #1a0000; border: 1px solid #ef4444; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #ef4444; }
+        span.field-validation-error { color: #ef4444; font-size: 11px; margin-top: 4px; display: block; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="logo">HomeFit</div>
+    <h2>Hesap Oluştur</h2>
+    <p class="sub">Ücretsiz başla, sana özel programını al.</p>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="validation-summary">
+            @Html.ValidationSummary(false)
+        </div>
+    }
+
+    <form asp-action="Register" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="grid2">
+            <div class="field">
+                <label>Ad Soyad</label>
+                <input asp-for="Name" placeholder="Adınız Soyadınız" />
+                <span asp-validation-for="Name"></span>
+            </div>
+            <div class="field">
+                <label>Email</label>
+                <input asp-for="Email" placeholder="email@example.com" />
+                <span asp-validation-for="Email"></span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Şifre (en az 6 karakter)</label>
+            <input asp-for="Password" type="password" placeholder="••••••••" />
+            <span asp-validation-for="Password"></span>
+        </div>
+
+        <div class="field">
+            <label>Güvenlik Sorusu</label>
+            <select asp-for="SecurityQuestion">
+                <option value="">Seçin...</option>
+                <option value="İlk evcil hayvanınızın adı nedir?">İlk evcil hayvanınızın adı nedir?</option>
+                <option value="Annenizin kızlık soyadı nedir?">Annenizin kızlık soyadı nedir?</option>
+                <option value="İlk okula gittiğiniz şehir neresidir?">İlk okula gittiğiniz şehir neresidir?</option>
+                <option value="En sevdiğiniz öğretmeninizin adı nedir?">En sevdiğiniz öğretmeninizin adı nedir?</option>
+                <option value="Doğduğunuz hastane nedir?">Doğduğunuz hastane nedir?</option>
+            </select>
+            <span asp-validation-for="SecurityQuestion"></span>
+        </div>
+
+        <div class="field">
+            <label>Güvenlik Sorusu Cevabı</label>
+            <input asp-for="SecurityAnswer" placeholder="Cevabınız" />
+            <span asp-validation-for="SecurityAnswer"></span>
+        </div>
+
+        <div class="checkbox-row">
+            <input asp-for="AcceptPrivacyPolicy" type="checkbox" />
+            <span>
+                <a href="/Home/Privacy" style="color:#00bcd4">Gizlilik Politikası</a> ve KVKK kapsamındaki
+                kişisel veri işleme koşullarını okudum, kabul ediyorum.
+            </span>
+        </div>
+        <span asp-validation-for="AcceptPrivacyPolicy" style="color:#ef4444;font-size:11px;"></span>
+
+        <button type="submit" class="btn">Kayıt Ol →</button>
+    </form>
+
+    <div class="footer-link">
+        Zaten hesabın var mı? <a href="/Account/Login">Giriş Yap</a>
+    </div>
+</div>
+</body>
+</html>
