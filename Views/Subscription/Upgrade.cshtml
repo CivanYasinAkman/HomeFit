@@ -1,0 +1,67 @@
+@model HomeFit.Models.User
+@{ ViewData["Title"] = "Premium'a Geç"; }
+
+<div style="background:#0d0d1a;min-height:100vh;padding:60px 20px;color:white;">
+    <div style="max-width:600px;margin:0 auto;text-align:center;">
+
+        <div style="font-size:48px;margin-bottom:16px;">⭐</div>
+        <h2 style="font-size:28px;margin-bottom:8px;">Premium Üyelik</h2>
+        <p style="color:#6b7280;font-size:14px;margin-bottom:40px;">
+            Gelişmiş programlara ve tüm egzersizlere sınırsız erişim.
+        </p>
+
+        <!-- Fiyat Kartı -->
+        <div style="background:#111827;border:2px solid #f59e0b;border-radius:16px;padding:36px;margin-bottom:28px;">
+            <div style="color:#f59e0b;font-size:13px;font-weight:bold;margin-bottom:12px;">PREMIUM PLAN</div>
+            <div style="font-size:48px;font-weight:900;margin-bottom:4px;">
+                ₺99<span style="font-size:18px;color:#6b7280;font-weight:400;">/ay</span>
+            </div>
+            <div style="color:#6b7280;font-size:13px;margin-bottom:28px;">Simüle ödeme — gerçek ücret alınmaz</div>
+
+            <div style="text-align:left;margin-bottom:28px;">
+                @foreach (var feature in new[] {
+                    "Tüm premium egzersizlere erişim",
+                    "Gelişmiş haftalık programlar",
+                    "Detaylı ilerleme analizleri",
+                    "Öncelikli program ataması",
+                    "Tüm kas grupları için içerik"
+                })
+                {
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                        <span style="color:#00c853;font-size:16px;">✓</span>
+                        <span style="font-size:14px;">@feature</span>
+                    </div>
+                }
+            </div>
+
+            <form asp-controller="Subscription" asp-action="Confirm" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit"
+                        style="width:100%;background:#f59e0b;color:#000;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:bold;cursor:pointer;">
+                    Premium'a Geç →
+                </button>
+            </form>
+        </div>
+
+        <!-- Free Plan karşılaştırma -->
+        <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:24px;margin-bottom:24px;">
+            <div style="color:#6b7280;font-size:13px;font-weight:bold;margin-bottom:12px;">MEVCUT PLAN — FREE</div>
+            @foreach (var feature in new[] {
+                "Temel egzersiz kütüphanesi",
+                "Başlangıç programları",
+                "Tekrar sayacı ve GIF gösterimi"
+            })
+            {
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                    <span style="color:#6b7280;font-size:16px;">·</span>
+                    <span style="font-size:13px;color:#9ca3af;">@feature</span>
+                </div>
+            }
+        </div>
+
+        <a href="/Home/Dashboard"
+           style="color:#6b7280;font-size:13px;text-decoration:none;">
+            ← Şimdi değil, dashboard'a dön
+        </a>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+@model HomeFit.Models.Exercise
+@{ ViewData["Title"] = "Yeni Egzersiz Ekle"; }
+
+<div style="background:#0d0d1a;min-height:100vh;padding:40px 20px;color:white;">
+    <div style="max-width:600px;margin:0 auto;">
+
+        <a href="/Admin/Exercises" style="color:#6b7280;font-size:13px;text-decoration:none;">← Egzersiz Listesi</a>
+        <h2 style="font-size:20px;margin:12px 0 4px;">Yeni Egzersiz Ekle</h2>
+        <p style="color:#6b7280;font-size:13px;margin-bottom:28px;">Egzersiz kütüphanesine yeni içerik ekle.</p>
+
+        <form asp-action="CreateExercise" method="post"
+              style="background:#111827;border:1px solid #1e1e2e;border-radius:16px;padding:32px;">
+            @Html.AntiForgeryToken()
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div style="background:#1a0000;border:1px solid #ef4444;border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;color:#ef4444;">
+                    @Html.ValidationSummary(false)
+                </div>
+            }
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                <div>
+                    <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">Egzersiz Adı *</label>
+                    <input asp-for="Name" style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;border-radius:8px;padding:10px 14px;color:#fff;font-size:13px;outline:none;" />
+                    <span asp-validation-for="Name" style="color:#ef4444;font-size:11px;"></span>
+                </div>
+                <div>
+                    <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">Kas Grubu *</label>
+                    <select asp-for="MuscleGroup" style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;border-radius:8px;padding:10px 14px;color:#fff;font-size:13px;outline:none;">
+                        <option value="">Seçin...</option>
+                        <option value="Chest">Göğüs</option>
+                        <option value="Back">Sırt</option>
+                        <option value="Legs">Bacak</option>
+                        <option value="Shoulders">Omuz</option>
+                        <option value="Arms">Kollar</option>
+                        <option value="Core">Core</option>
+                        <option value="Full Body">Tüm Vücut</option>
+                        <option value="Cardio">Cardio</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">Zorluk *</label>
+                    <select asp-for="Difficulty" style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;border-radius:8px;padding:10px 14px;color:#fff;font-size:13px;outline:none;">
+                        <option value="">Seçin...</option>
+                        <option value="Beginner">Başlangıç</option>
+                        <option value="Intermediate">Orta</option>
+                        <option value="Advanced">İleri</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">Ekipman</label>
+                    <select asp-for="Equipment" style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;border-radius:8px;padding:10px 14px;color:#fff;font-size:13px;outline:none;">
+                        <option value="None">Ekipman Yok</option>
+                        <option value="Dumbbell">Dumbbell</option>
+                        <option value="Barbell">Barbell</option>
+                        <option value="Pull-up Bar">Pull-up Bar</option>
+                        <option value="Resistance Band">Direnç Bandı</option>
+                        <option value="Kettlebell">Kettlebell</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-bottom:16px;">
+                <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">GIF URL (Cloudinary)</label>
+                <input asp-for="GifUrl" placeholder="https://res.cloudinary.com/..."
+                       style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;border-radius:8px;padding:10px 14px;color:#fff;font-size:13px;outline:none;" />
+            </div>
+
+            <div style="margin-bottom:16px;">
+                <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">Açıklama</label>
+                <textarea asp-for="Description" rows="3"
+                          style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;border-radius:8px;padding:10px 14px;color:#fff;font-size:13px;outline:none;resize:vertical;"
+                          placeholder="Egzersizin doğru form ve tekniği..."></textarea>
+            </div>
+
+            <div style="margin-bottom:24px;display:flex;align-items:center;gap:10px;">
+                <input asp-for="IsPremium" type="checkbox" style="width:16px;height:16px;" />
+                <label style="font-size:13px;color:#9ca3af;">Premium egzersiz (sadece Premium üyelere görünür)</label>
+            </div>
+
+            <div style="display:flex;gap:12px;">
+                <button type="submit"
+                        style="flex:1;background:#00bcd4;color:#000;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:bold;cursor:pointer;">
+                    Egzersizi Ekle
+                </button>
+                <a href="/Admin/Exercises"
+                   style="background:#1e1e2e;color:#fff;padding:13px 20px;border-radius:10px;text-decoration:none;font-size:14px;display:flex;align-items:center;">
+                    İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

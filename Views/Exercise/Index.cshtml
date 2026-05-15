@@ -1,33 +1,96 @@
 @model IEnumerable<HomeFit.Models.Exercise>
+@{ ViewData["Title"] = "Egzersiz Kütüphanesi"; }
 
-@{
-    ViewData["Title"] = "Egzersiz Kütüphanesi";
-}
+<div style="background:#0d0d1a;min-height:100vh;padding:40px 20px;color:white;">
+    <div style="max-width:1000px;margin:0 auto;">
 
-<div style="background: #0d0d1a; min-height: 100vh; padding: 40px; color: white;">
-    <h2 style="color: #00bcd4; margin-bottom: 8px;">Egzersiz Kütüphanesi</h2>
-    <p style="color: #888; margin-bottom: 32px;">Tüm egzersizleri inceleyin ve programınıza ekleyin.</p>
+        <h2 style="color:#00bcd4;margin-bottom:4px;">Egzersiz Kütüphanesi</h2>
+        <p style="color:#6b7280;font-size:13px;margin-bottom:24px;">Tüm egzersizleri inceleyin ve programınıza ekleyin.</p>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
-        @foreach (var exercise in Model)
+        <!-- Filtreler -->
+        <form method="get" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px;">
+            <input name="search" value="@ViewBag.Search" placeholder="Egzersiz ara..."
+                   style="flex:1;min-width:160px;background:#1e1e2e;border:1px solid #2a2a3e;border-radius:8px;padding:9px 14px;color:#fff;font-size:13px;outline:none;" />
+            <select name="muscle"
+                    style="background:#1e1e2e;border:1px solid #2a2a3e;border-radius:8px;padding:9px 14px;color:#fff;font-size:13px;outline:none;">
+                <option value="">Tüm Kas Grupları</option>
+                @foreach (var m in new[] { "Chest","Back","Legs","Shoulders","Arms","Core","Full Body","Cardio" })
+                {
+                    <option value="@m" selected="@(ViewBag.MuscleFilter == m ? "selected" : null)">@m</option>
+                }
+            </select>
+            <select name="difficulty"
+                    style="background:#1e1e2e;border:1px solid #2a2a3e;border-radius:8px;padding:9px 14px;color:#fff;font-size:13px;outline:none;">
+                <option value="">Tüm Zorluklar</option>
+                @foreach (var d in new[] { "Beginner","Intermediate","Advanced" })
+                {
+                    <option value="@d" selected="@(ViewBag.DifficultyFilter == d ? "selected" : null)">@d</option>
+                }
+            </select>
+            <button type="submit"
+                    style="background:#00bcd4;color:#000;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:bold;cursor:pointer;">
+                Filtrele
+            </button>
+            <a href="/Exercise"
+               style="background:#1e1e2e;color:#fff;border-radius:8px;padding:9px 16px;font-size:13px;text-decoration:none;display:flex;align-items:center;">
+                Temizle
+            </a>
+        </form>
+
+        <!-- Egzersiz Grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;">
+            @foreach (var exercise in Model)
+            {
+                <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;overflow:hidden;">
+                    <!-- GIF Alanı -->
+                    <div style="background:#1e1e2e;height:160px;display:flex;align-items:center;justify-content:center;position:relative;">
+                        @if (!string.IsNullOrEmpty(exercise.GifUrl) && exercise.GifUrl.StartsWith("http"))
+                        {
+                            <img src="@exercise.GifUrl" alt="@exercise.Name"
+                                 style="width:100%;height:100%;object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <span style="color:#444;font-size:12px;">[ @exercise.Name GIF ]</span>
+                        }
+                        @if (exercise.IsPremium)
+                        {
+                            <div style="position:absolute;top:8px;right:8px;background:#2a1a0e;color:#f59e0b;font-size:10px;padding:3px 8px;border-radius:10px;font-weight:bold;">
+                                ⭐ Premium
+                            </div>
+                        }
+                    </div>
+
+                    <div style="padding:16px;">
+                        <h3 style="color:#fff;margin-bottom:8px;font-size:15px;">@exercise.Name</h3>
+                        <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
+                            <span style="background:#0d1a1e;color:#00bcd4;font-size:11px;padding:3px 10px;border-radius:6px;">
+                                @exercise.MuscleGroup
+                            </span>
+                            <span style="background:#1a1a2e;color:#6b7280;font-size:11px;padding:3px 10px;border-radius:6px;">
+                                @exercise.Difficulty
+                            </span>
+                            @if (exercise.Equipment != "None" && !string.IsNullOrEmpty(exercise.Equipment))
+                            {
+                                <span style="background:#1a1a2e;color:#6b7280;font-size:11px;padding:3px 10px;border-radius:6px;">
+                                    @exercise.Equipment
+                                </span>
+                            }
+                        </div>
+                        <a href="/Exercise/Detail/@exercise.ExerciseId"
+                           style="display:block;background:#00bcd4;color:#000;text-align:center;padding:9px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:13px;">
+                            @(exercise.IsPremium ? "⭐ Premium - Gör" : "Egzersizi Gör")
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (!Model.Any())
         {
-            <div style="background: #1e1e2e; border-radius: 12px; padding: 20px; border: 1px solid #2a2a3e;">
-                <div style="background: #2a2a3e; border-radius: 8px; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-                    <span style="color: #555; font-size: 12px;">[ GIF: @exercise.Name ]</span>
-                </div>
-                <h3 style="color: #fff; margin-bottom: 8px;">@exercise.Name</h3>
-                <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
-                    <span style="background: #0d1a1e; color: #00bcd4; font-size: 11px; padding: 3px 10px; border-radius: 6px;">@exercise.MuscleGroup</span>
-                    <span style="background: #1a1a2e; color: #888; font-size: 11px; padding: 3px 10px; border-radius: 6px;">@exercise.Difficulty</span>
-                    @if (exercise.IsPremium)
-                    {
-                        <span style="background: #2a1a0e; color: #f59e0b; font-size: 11px; padding: 3px 10px; border-radius: 6px;">Premium</span>
-                    }
-                </div>
-                <a href="/Exercise/Detail/@exercise.ExerciseId"
-                   style="display: block; background: #00bcd4; color: #000; text-align: center; padding: 8px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 13px;">
-                    Egzersizi Gör
-                </a>
+            <div style="text-align:center;padding:60px;color:#6b7280;">
+                <div style="font-size:40px;margin-bottom:12px;">🔍</div>
+                <p>Arama kriterlerine uygun egzersiz bulunamadı.</p>
             </div>
         }
     </div>

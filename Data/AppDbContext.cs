@@ -1,3 +1,4 @@
+using System; // DateTime kullanımı için gereken kütüphane eklendi
 using Microsoft.EntityFrameworkCore;
 using HomeFit.Models;
 
@@ -75,6 +76,23 @@ namespace HomeFit.Data
                 new WorkoutProgram { ProgramId = 4, Name = "Intermediate Muscle Gain", Description = "4 days/week progressive overload", DifficultyLevel = "intermediate", Goal = "muscle_gain", DurationWeeks = 6, IsPremium = true },
                 new WorkoutProgram { ProgramId = 5, Name = "Advanced Strength", Description = "5 days/week heavy compound lifts", DifficultyLevel = "advanced", Goal = "muscle_gain", DurationWeeks = 8, IsPremium = true },
                 new WorkoutProgram { ProgramId = 6, Name = "General Fitness", Description = "3 days/week full body", DifficultyLevel = "beginner", Goal = "maintain", DurationWeeks = 4, IsPremium = false }
+            );
+
+            // Seed: Admin User
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    UserId = 1,
+                    Name = "Admin",
+                    Email = "admin@homefit.com",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123!", 10),
+                    SecurityQuestion = "Doğduğunuz hastane nedir?",
+                    SecurityAnswer = "admin",
+                    Role = "Admin",
+                    MembershipTier = "Premium",
+                    JoinDate = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    OnboardingCompleted = true
+                }
             );
         }
     }

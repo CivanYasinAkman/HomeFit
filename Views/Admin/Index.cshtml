@@ -1,0 +1,53 @@
+@{ ViewData["Title"] = "Admin Panel"; }
+
+<div style="background:#0d0d1a;min-height:100vh;padding:40px 20px;color:white;">
+    <div style="max-width:1000px;margin:0 auto;">
+
+        <h2 style="font-size:22px;margin-bottom:4px;">Admin Paneli</h2>
+        <p style="color:#6b7280;font-size:13px;margin-bottom:32px;">Platform istatistikleri ve yönetim araçları</p>
+
+        @if (TempData["Success"] != null)
+        {
+            <div style="background:#0d2a1a;border:1px solid #00c853;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#00c853;">
+                ✅ @TempData["Success"]
+            </div>
+        }
+
+        <!-- İstatistik Kartları -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;">
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:24px;">
+                <div style="color:#6b7280;font-size:11px;margin-bottom:8px;">TOPLAM KULLANICI</div>
+                <div style="font-size:32px;font-weight:900;color:#00bcd4;">@ViewBag.TotalUsers</div>
+            </div>
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:24px;">
+                <div style="color:#6b7280;font-size:11px;margin-bottom:8px;">PREMIUM ÜYE</div>
+                <div style="font-size:32px;font-weight:900;color:#f59e0b;">@ViewBag.PremiumUsers</div>
+            </div>
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:24px;">
+                <div style="color:#6b7280;font-size:11px;margin-bottom:8px;">TOPLAM EGZERSİZ</div>
+                <div style="font-size:32px;font-weight:900;color:#00c853;">@ViewBag.TotalExercises</div>
+            </div>
+            <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:24px;">
+                <div style="color:#6b7280;font-size:11px;margin-bottom:8px;">TOPLAM SEANS</div>
+                <div style="font-size:32px;font-weight:900;color:#a78bfa;">@ViewBag.TotalSessions</div>
+            </div>
+        </div>
+
+        <!-- Hızlı Erişim -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <a href="/Admin/Users"
+               style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:28px;text-decoration:none;color:white;display:block;">
+                <div style="font-size:32px;margin-bottom:12px;">👥</div>
+                <div style="font-size:16px;font-weight:bold;margin-bottom:4px;">Kullanıcı Yönetimi</div>
+                <div style="color:#6b7280;font-size:13px;">Kullanıcıları listele, ara ve sil</div>
+            </a>
+            <a href="/Admin/Exercises"
+               style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:28px;text-decoration:none;color:white;display:block;">
+                <div style="font-size:32px;margin-bottom:12px;">🏋️</div>
+                <div style="font-size:16px;font-weight:bold;margin-bottom:4px;">Egzersiz Yönetimi</div>
+                <div style="color:#6b7280;font-size:13px;">Egzersiz ekle, düzenle ve sil</div>
+            </a>
+        </div>
+
+    </div>
+</div>

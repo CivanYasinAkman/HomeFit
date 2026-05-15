@@ -1,0 +1,37 @@
+@model HomeFit.Models.User
+@{ ViewData["Title"] = "Üyelik İptal"; }
+
+<div style="background:#0d0d1a;min-height:100vh;padding:60px 20px;color:white;">
+    <div style="max-width:480px;margin:0 auto;text-align:center;">
+
+        <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
+        <h2 style="font-size:22px;margin-bottom:8px;">Premium Üyeliği İptal Et</h2>
+        <p style="color:#6b7280;font-size:14px;margin-bottom:32px;">
+            İptal ettiğinizde premium egzersizlere ve gelişmiş programlara erişiminiz sona erecek.
+        </p>
+
+        <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;padding:24px;margin-bottom:24px;text-align:left;">
+            <div style="color:#6b7280;font-size:12px;margin-bottom:4px;">MEVCUT PLAN</div>
+            <div style="font-size:16px;font-weight:bold;color:#f59e0b;">⭐ Premium</div>
+            @if (Model.Subscription != null)
+            {
+                <div style="color:#6b7280;font-size:12px;margin-top:8px;">
+                    Bitiş: @Model.Subscription.EndDate.ToString("dd.MM.yyyy")
+                </div>
+            }
+        </div>
+
+        <form asp-action="CancelConfirm" method="post" style="margin-bottom:16px;">
+            @Html.AntiForgeryToken()
+            <button type="submit"
+                    style="width:100%;background:#1a0000;color:#ef4444;border:1px solid #ef4444;border-radius:10px;padding:13px;font-size:14px;font-weight:bold;cursor:pointer;">
+                Evet, İptal Et
+            </button>
+        </form>
+
+        <a href="/Account/Profile"
+           style="display:block;background:#1e1e2e;color:#fff;padding:13px;border-radius:10px;text-decoration:none;font-size:14px;">
+            Vazgeç
+        </a>
+    </div>
+</div>

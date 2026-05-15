@@ -1,0 +1,94 @@
+@model IEnumerable<HomeFit.Models.Exercise>
+@{ ViewData["Title"] = "Egzersiz Yönetimi"; }
+
+<div style="background:#0d0d1a;min-height:100vh;padding:40px 20px;color:white;">
+    <div style="max-width:1000px;margin:0 auto;">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+            <div>
+                <a href="/Admin" style="color:#6b7280;font-size:13px;text-decoration:none;">← Admin Panel</a>
+                <h2 style="font-size:20px;margin-top:4px;">Egzersiz Yönetimi</h2>
+            </div>
+            <a href="/Admin/CreateExercise"
+               style="background:#00bcd4;color:#000;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:13px;">
+                + Yeni Egzersiz
+            </a>
+        </div>
+
+        @if (TempData["Success"] != null)
+        {
+            <div style="background:#0d2a1a;border:1px solid #00c853;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#00c853;">
+                ✅ @TempData["Success"]
+            </div>
+        }
+
+        <!-- Arama -->
+        <form method="get" style="margin-bottom:20px;display:flex;gap:12px;">
+            <input name="search" value="@ViewBag.Search" placeholder="Egzersiz veya kas grubu ara..."
+                   style="flex:1;background:#1e1e2e;border:1px solid #2a2a3e;border-radius:8px;padding:10px 14px;color:#fff;font-size:13px;outline:none;" />
+            <button type="submit"
+                    style="background:#00bcd4;color:#000;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:bold;cursor:pointer;">
+                Ara
+            </button>
+        </form>
+
+        <!-- Tablo -->
+        <div style="background:#111827;border:1px solid #1e1e2e;border-radius:12px;overflow:hidden;">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                <thead>
+                    <tr style="border-bottom:1px solid #1e1e2e;">
+                        <th style="padding:14px 16px;text-align:left;color:#6b7280;font-weight:600;">EGZERSİZ</th>
+                        <th style="padding:14px 16px;text-align:left;color:#6b7280;font-weight:600;">KAS GRUBU</th>
+                        <th style="padding:14px 16px;text-align:left;color:#6b7280;font-weight:600;">ZORLUK</th>
+                        <th style="padding:14px 16px;text-align:left;color:#6b7280;font-weight:600;">EKİPMAN</th>
+                        <th style="padding:14px 16px;text-align:left;color:#6b7280;font-weight:600;">TİP</th>
+                        <th style="padding:14px 16px;text-align:left;color:#6b7280;font-weight:600;">İŞLEM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ex in Model)
+                    {
+                        <tr style="border-bottom:1px solid #1a1a2e;">
+                            <td style="padding:14px 16px;font-weight:bold;">@ex.Name</td>
+                            <td style="padding:14px 16px;color:#9ca3af;">@ex.MuscleGroup</td>
+                            <td style="padding:14px 16px;">
+                                <span style="background:#1e1e2e;color:#9ca3af;font-size:11px;padding:3px 10px;border-radius:20px;">
+                                    @ex.Difficulty
+                                </span>
+                            </td>
+                            <td style="padding:14px 16px;color:#9ca3af;">@ex.Equipment</td>
+                            <td style="padding:14px 16px;">
+                                @if (ex.IsPremium)
+                                {
+                                    <span style="background:#2a1a0e;color:#f59e0b;font-size:11px;padding:3px 10px;border-radius:20px;">⭐ Premium</span>
+                                }
+                                else
+                                {
+                                    <span style="background:#0d1a1e;color:#00bcd4;font-size:11px;padding:3px 10px;border-radius:20px;">Free</span>
+                                }
+                            </td>
+                            <td style="padding:14px 16px;">
+                                <div style="display:flex;gap:8px;">
+                                    <a href="/Admin/EditExercise/@ex.ExerciseId"
+                                       style="background:#1e1e2e;color:#fff;padding:5px 12px;border-radius:6px;font-size:11px;text-decoration:none;">
+                                        Düzenle
+                                    </a>
+                                    <form asp-action="DeleteExercise" method="post" style="display:inline;"
+                                          onsubmit="return confirm('@ex.Name egzersizini silmek istediğinizden emin misiniz?')">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@ex.ExerciseId" />
+                                        <button type="submit"
+                                                style="background:#1a0000;color:#ef4444;border:1px solid #ef4444;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;">
+                                            Sil
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
