@@ -136,4 +136,39 @@
             </a>
         </div>
     </div>
+
+<!-- Hızlı Seans Kaydet -->
+        <div style="background:#111827;border:1px solid #1e1e2e;border-radius:14px;
+                    padding:24px;margin-top:16px;">
+            <h4 style="color:#a78bfa;font-size:14px;margin-bottom:16px;">
+                ⚡ Hızlı Seans Kaydet
+            </h4>
+            <form asp-controller="Progress" asp-action="LogSession" method="post"
+                  style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
+                @Html.AntiForgeryToken()
+                @if (Model.UserProgram != null)
+                {
+                    <input type="hidden" name="programId"
+                           value="@Model.UserProgram.ProgramId" />
+                }
+                <div style="flex:1;min-width:160px;">
+                    <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">
+                        Süre (dakika)
+                    </label>
+                    <input name="durationMinutes" type="number" placeholder="45" required
+                           style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;
+                                  border-radius:8px;padding:10px 14px;color:#fff;
+                                  font-size:13px;outline:none;" />
+                </div>
+                <button type="submit"
+                        style="background:#a78bfa;color:#000;border:none;border-radius:8px;
+                               padding:10px 20px;font-size:13px;font-weight:bold;
+                               cursor:pointer;white-space:nowrap;">
+                    💪 Kaydet
+                </button>
+            </form>
+        </div>
+
+
+
 </div>

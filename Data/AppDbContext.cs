@@ -94,6 +94,54 @@ namespace HomeFit.Data
                     OnboardingCompleted = true
                 }
             );
+
+          // Seed: ProgramExercises — Beginner Fat Loss (ProgramId=1)
+            modelBuilder.Entity<ProgramExercise>().HasData(
+                // Pazartesi
+                new ProgramExercise { ProgramExerciseId = 1, ProgramId = 1, ExerciseId = 5, DayOfWeek = "Pazartesi", OrderInDay = 1, Sets = 3, Reps = 15 },
+                new ProgramExercise { ProgramExerciseId = 2, ProgramId = 1, ExerciseId = 1, DayOfWeek = "Pazartesi", OrderInDay = 2, Sets = 3, Reps = 15 },
+                new ProgramExercise { ProgramExerciseId = 3, ProgramId = 1, ExerciseId = 3, DayOfWeek = "Pazartesi", OrderInDay = 3, Sets = 3, Reps = 30 },
+                // Çarşamba
+                new ProgramExercise { ProgramExerciseId = 4, ProgramId = 1, ExerciseId = 6, DayOfWeek = "Çarşamba", OrderInDay = 1, Sets = 3, Reps = 20 },
+                new ProgramExercise { ProgramExerciseId = 5, ProgramId = 1, ExerciseId = 2, DayOfWeek = "Çarşamba", OrderInDay = 2, Sets = 3, Reps = 12 },
+                new ProgramExercise { ProgramExerciseId = 6, ProgramId = 1, ExerciseId = 4, DayOfWeek = "Çarşamba", OrderInDay = 3, Sets = 3, Reps = 12 },
+                // Cuma
+                new ProgramExercise { ProgramExerciseId = 7, ProgramId = 1, ExerciseId = 5, DayOfWeek = "Cuma", OrderInDay = 1, Sets = 4, Reps = 15 },
+                new ProgramExercise { ProgramExerciseId = 8, ProgramId = 1, ExerciseId = 1, DayOfWeek = "Cuma", OrderInDay = 2, Sets = 4, Reps = 15 },
+                new ProgramExercise { ProgramExerciseId = 9, ProgramId = 1, ExerciseId = 3, DayOfWeek = "Cuma", OrderInDay = 3, Sets = 3, Reps = 40 },
+
+                // Seed: Beginner Muscle Gain (ProgramId=2)
+                // Pazartesi
+                new ProgramExercise { ProgramExerciseId = 10, ProgramId = 2, ExerciseId = 2, DayOfWeek = "Pazartesi", OrderInDay = 1, Sets = 4, Reps = 10 },
+                new ProgramExercise { ProgramExerciseId = 11, ProgramId = 2, ExerciseId = 1, DayOfWeek = "Pazartesi", OrderInDay = 2, Sets = 4, Reps = 12 },
+                new ProgramExercise { ProgramExerciseId = 12, ProgramId = 2, ExerciseId = 3, DayOfWeek = "Pazartesi", OrderInDay = 3, Sets = 3, Reps = 30 },
+                // Çarşamba
+                new ProgramExercise { ProgramExerciseId = 13, ProgramId = 2, ExerciseId = 4, DayOfWeek = "Çarşamba", OrderInDay = 1, Sets = 4, Reps = 10 },
+                new ProgramExercise { ProgramExerciseId = 14, ProgramId = 2, ExerciseId = 2, DayOfWeek = "Çarşamba", OrderInDay = 2, Sets = 3, Reps = 12 },
+                // Cuma
+                new ProgramExercise { ProgramExerciseId = 15, ProgramId = 2, ExerciseId = 1, DayOfWeek = "Cuma", OrderInDay = 1, Sets = 4, Reps = 15 },
+                new ProgramExercise { ProgramExerciseId = 16, ProgramId = 2, ExerciseId = 3, DayOfWeek = "Cuma", OrderInDay = 2, Sets = 4, Reps = 30 },
+                new ProgramExercise { ProgramExerciseId = 17, ProgramId = 2, ExerciseId = 2, DayOfWeek = "Cuma", OrderInDay = 3, Sets = 4, Reps = 10 },
+
+                // Seed: Intermediate Fat Loss (ProgramId=3)
+                new ProgramExercise { ProgramExerciseId = 18, ProgramId = 3, ExerciseId = 5, DayOfWeek = "Pazartesi", OrderInDay = 1, Sets = 4, Reps = 15 },
+                new ProgramExercise { ProgramExerciseId = 19, ProgramId = 3, ExerciseId = 6, DayOfWeek = "Pazartesi", OrderInDay = 2, Sets = 4, Reps = 20 },
+                new ProgramExercise { ProgramExerciseId = 20, ProgramId = 3, ExerciseId = 2, DayOfWeek = "Salı", OrderInDay = 1, Sets = 4, Reps = 15 },
+                new ProgramExercise { ProgramExerciseId = 21, ProgramId = 3, ExerciseId = 1, DayOfWeek = "Salı", OrderInDay = 2, Sets = 4, Reps = 20 },
+                new ProgramExercise { ProgramExerciseId = 22, ProgramId = 3, ExerciseId = 5, DayOfWeek = "Perşembe", OrderInDay = 1, Sets = 5, Reps = 15 },
+                new ProgramExercise { ProgramExerciseId = 23, ProgramId = 3, ExerciseId = 3, DayOfWeek = "Perşembe", OrderInDay = 2, Sets = 4, Reps = 40 },
+                new ProgramExercise { ProgramExerciseId = 24, ProgramId = 3, ExerciseId = 6, DayOfWeek = "Cumartesi", OrderInDay = 1, Sets = 5, Reps = 20 },
+                new ProgramExercise { ProgramExerciseId = 25, ProgramId = 3, ExerciseId = 4, DayOfWeek = "Cumartesi", OrderInDay = 2, Sets = 4, Reps = 15 },
+
+                // Seed: General Fitness (ProgramId=6)
+                new ProgramExercise { ProgramExerciseId = 26, ProgramId = 6, ExerciseId = 1, DayOfWeek = "Pazartesi", OrderInDay = 1, Sets = 3, Reps = 12 },
+                new ProgramExercise { ProgramExerciseId = 27, ProgramId = 6, ExerciseId = 2, DayOfWeek = "Pazartesi", OrderInDay = 2, Sets = 3, Reps = 10 },
+                new ProgramExercise { ProgramExerciseId = 28, ProgramId = 6, ExerciseId = 3, DayOfWeek = "Pazartesi", OrderInDay = 3, Sets = 3, Reps = 30 },
+                new ProgramExercise { ProgramExerciseId = 29, ProgramId = 6, ExerciseId = 4, DayOfWeek = "Çarşamba", OrderInDay = 1, Sets = 3, Reps = 12 },
+                new ProgramExercise { ProgramExerciseId = 30, ProgramId = 6, ExerciseId = 5, DayOfWeek = "Çarşamba", OrderInDay = 2, Sets = 3, Reps = 10 },
+                new ProgramExercise { ProgramExerciseId = 31, ProgramId = 6, ExerciseId = 1, DayOfWeek = "Cuma", OrderInDay = 1, Sets = 3, Reps = 15 },
+                new ProgramExercise { ProgramExerciseId = 32, ProgramId = 6, ExerciseId = 2, DayOfWeek = "Cuma", OrderInDay = 2, Sets = 3, Reps = 12 }
+            );  
         }
     }
 }

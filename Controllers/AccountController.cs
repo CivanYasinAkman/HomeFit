@@ -179,7 +179,73 @@ namespace HomeFit.Controllers
             await HttpContext.SignOutAsync("CookieAuth");
             return RedirectToAction("Index", "Home");
         }
+// GET /Account/EditProfile
+        [Authorize]
+        public async Task<IActionResult> EditProfile()
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return NotFound();
+            return View(user);
+        }
 
+        // POST /Account/EditProfile
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfile(User formData)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return NotFound();
+
+            user.Name = formData.Name;
+            user.Age = formData.Age;
+            user.Weight = formData.Weight;
+            user.Height = formData.Height;
+            user.Gender = formData.Gender;
+
+            await _context.SaveChangesAsync();
+
+            // Cookie'deki ismi güncelle
+            await HttpContext.SignOutAsync("CookieAuth");
+            await SignInUser(user);
+
+            TempData["Success"] = "Profil bilgileri güncellendi.";
+            return RedirectToAction("Profile");
+        }
+
+        // POST /Account/ChangePassword
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(
+            string currentPassword, string newPassword)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return NotFound();
+
+            if (!BCrypt.Net.BCrypt.Verify(currentPassword, user.PasswordHash))
+            {
+                TempData["Error"] = "Mevcut şifre hatalı.";
+                return RedirectToAction("Profile");
+            }
+
+            if (newPassword.Length < 6)
+            {
+                TempData["Error"] = "Yeni şifre en az 6 karakter olmalıdır.";
+                return RedirectToAction("Profile");
+            }
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(
+                newPassword, workFactor: 10);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Şifreniz başarıyla güncellendi.";
+            return RedirectToAction("Profile");
+        }
+        
         // Yardımcı: cookie ile oturum aç
         private async Task SignInUser(User user)
         {

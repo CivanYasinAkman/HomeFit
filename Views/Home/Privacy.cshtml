@@ -1,6 +1,30 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿@{ ViewData["Title"] = "Gizlilik Politikası"; }
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div style="background:#0d0d1a;min-height:100vh;padding:60px 20px;color:white;">
+    <div style="max-width:700px;margin:0 auto;">
+
+        <h2 style="color:#00bcd4;margin-bottom:4px;">Gizlilik Politikası</h2>
+        <p style="color:#6b7280;font-size:13px;margin-bottom:40px;">
+            Son güncelleme: Ocak 2024
+        </p>
+
+        @foreach (var item in new[] {
+            new { title = "1. Toplanan Veriler", content = "HomeFit platformuna kayıt olurken ad, email adresi ve şifre bilgileriniz toplanmaktadır. Onboarding sürecinde yaş, kilo, boy, cinsiyet, fitness seviyesi ve hedef bilgileriniz işlenmektedir. Bu veriler yalnızca size özel antrenman programı oluşturmak amacıyla kullanılmaktadır." },
+            new { title = "2. Verilerin Kullanımı", content = "Toplanan kişisel veriler; hesap yönetimi, kural tabanlı program ataması, ilerleme takibi ve platform güvenliği amaçlarıyla kullanılmaktadır. Verileriniz üçüncü taraflarla paylaşılmamaktadır. GIF medya dosyaları Cloudinary üzerinden sunulmakta olup yalnızca medya teslimatı amacıyla kullanılmaktadır." },
+            new { title = "3. KVKK Kapsamındaki Haklarınız", content = "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında kişisel verilerinize erişme, düzeltme, silme ve işlenmesine itiraz etme haklarına sahipsiniz. Hesabınızı silmek için Profil sayfasındaki 'Hesabı Sil' seçeneğini kullanabilirsiniz. Bu işlem tüm kişisel verilerinizi kalıcı olarak siler." },
+            new { title = "4. Veri Güvenliği", content = "Şifreleriniz bcrypt algoritması ile minimum cost factor 10 kullanılarak hashlenmektedir. Tüm iletişim HTTPS üzerinden gerçekleştirilmektedir. JWT tokenlar 24 saat sonra otomatik olarak geçersiz hale gelmektedir. SQL injection saldırılarına karşı parametrize sorgular kullanılmaktadır." },
+            new { title = "5. Çerezler", content = "HomeFit, oturum yönetimi için HttpOnly cookie kullanmaktadır. Bu çerezler üçüncü taraf izleme amacıyla kullanılmamaktadır." },
+            new { title = "6. İletişim", content = "Gizlilik politikamız hakkında sorularınız için platform üzerinden iletişime geçebilirsiniz." }
+        })
+        {
+            <div style="margin-bottom:28px;">
+                <h4 style="color:#fff;font-size:15px;margin-bottom:10px;">@item.title</h4>
+                <p style="color:#9ca3af;font-size:13px;line-height:1.8;">@item.content</p>
+            </div>
+            <div style="border-top:1px solid #1e1e2e;margin-bottom:28px;"></div>
+        }
+
+        <a href="/"
+           style="color:#00bcd4;font-size:13px;text-decoration:none;">← Ana Sayfaya Dön</a>
+    </div>
+</div>

@@ -42,6 +42,12 @@
     </div>
 </nav>
 <main>
+    @if (TempData["Success"] != null)
+    {
+        <div style="background:#0d2a1a;border-bottom:1px solid #00c853;padding:12px 32px;font-size:13px;color:#00c853;text-align:center;">
+            ✅ @TempData["Success"]
+        </div>
+    }
     @RenderBody()
 </main>
 

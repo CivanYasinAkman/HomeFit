@@ -1,0 +1,132 @@
+@model HomeFit.Models.User
+@{ ViewData["Title"] = "Profil Düzenle"; }
+
+<div style="background:#0d0d1a;min-height:100vh;padding:40px 20px;color:white;">
+    <div style="max-width:560px;margin:0 auto;">
+
+        <a href="/Account/Profile"
+           style="color:#6b7280;font-size:13px;text-decoration:none;">← Profilime Dön</a>
+        <h2 style="font-size:20px;margin:12px 0 4px;">Profil Bilgilerini Düzenle</h2>
+        <p style="color:#6b7280;font-size:13px;margin-bottom:28px;">
+            Ad, yaş ve fiziksel bilgilerini güncelle.
+        </p>
+
+        @if (TempData["Error"] != null)
+        {
+            <div style="background:#1a0000;border:1px solid #ef4444;border-radius:8px;
+                        padding:12px 16px;margin-bottom:16px;font-size:13px;color:#ef4444;">
+                ⚠️ @TempData["Error"]
+            </div>
+        }
+
+        <!-- Profil Güncelle -->
+        <form asp-action="EditProfile" method="post"
+              style="background:#111827;border:1px solid #1e1e2e;border-radius:16px;
+                     padding:32px;margin-bottom:20px;">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="UserId" />
+
+            <h4 style="color:#00bcd4;font-size:13px;margin-bottom:20px;">
+                Kişisel Bilgiler
+            </h4>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                <div>
+                    <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">
+                        Ad Soyad
+                    </label>
+                    <input asp-for="Name"
+                           style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;
+                                  border-radius:8px;padding:10px 14px;color:#fff;
+                                  font-size:13px;outline:none;" />
+                </div>
+                <div>
+                    <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">
+                        Yaş
+                    </label>
+                    <input asp-for="Age" type="number" min="10" max="100"
+                           style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;
+                                  border-radius:8px;padding:10px 14px;color:#fff;
+                                  font-size:13px;outline:none;" />
+                </div>
+                <div>
+                    <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">
+                        Kilo (kg)
+                    </label>
+                    <input asp-for="Weight" type="number" step="0.1"
+                           style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;
+                                  border-radius:8px;padding:10px 14px;color:#fff;
+                                  font-size:13px;outline:none;" />
+                </div>
+                <div>
+                    <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">
+                        Boy (cm)
+                    </label>
+                    <input asp-for="Height" type="number" step="0.1"
+                           style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;
+                                  border-radius:8px;padding:10px 14px;color:#fff;
+                                  font-size:13px;outline:none;" />
+                </div>
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">
+                    Cinsiyet
+                </label>
+                <select asp-for="Gender"
+                        style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;
+                               border-radius:8px;padding:10px 14px;color:#fff;
+                               font-size:13px;outline:none;">
+                    <option value="">Seçin...</option>
+                    <option value="female">Kadın</option>
+                    <option value="male">Erkek</option>
+                </select>
+            </div>
+
+            <button type="submit"
+                    style="width:100%;background:#00bcd4;color:#000;border:none;
+                           border-radius:10px;padding:13px;font-size:14px;
+                           font-weight:bold;cursor:pointer;">
+                Bilgileri Güncelle
+            </button>
+        </form>
+
+        <!-- Şifre Değiştir -->
+        <form asp-action="ChangePassword" method="post"
+              style="background:#111827;border:1px solid #1e1e2e;border-radius:16px;padding:32px;">
+            @Html.AntiForgeryToken()
+
+            <h4 style="color:#a78bfa;font-size:13px;margin-bottom:20px;">Şifre Değiştir</h4>
+
+            <div style="margin-bottom:16px;">
+                <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">
+                    Mevcut Şifre
+                </label>
+                <input name="currentPassword" type="password"
+                       style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;
+                              border-radius:8px;padding:10px 14px;color:#fff;
+                              font-size:13px;outline:none;"
+                       placeholder="••••••••" />
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <label style="display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;">
+                    Yeni Şifre (en az 6 karakter)
+                </label>
+                <input name="newPassword" type="password"
+                       style="width:100%;background:#1e1e2e;border:1px solid #2a2a3e;
+                              border-radius:8px;padding:10px 14px;color:#fff;
+                              font-size:13px;outline:none;"
+                       placeholder="••••••••" />
+            </div>
+
+            <button type="submit"
+                    style="width:100%;background:#a78bfa;color:#000;border:none;
+                           border-radius:10px;padding:13px;font-size:14px;
+                           font-weight:bold;cursor:pointer;">
+                Şifreyi Güncelle
+            </button>
+        </form>
+
+    </div>
+</div>
